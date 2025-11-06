@@ -1,3 +1,5 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +9,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Host. ()
+builder.Host.UseSerilog((ctx, lc) =>
+{
+    lc.WriteTo.Console();
+    lc.ReadFrom.Configuration(ctx.Configuration);
+});
 
 var app = builder.Build();
 
