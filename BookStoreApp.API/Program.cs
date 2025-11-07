@@ -26,9 +26,8 @@ builder.Services.AddCors(options =>
             .AllowAnyOrigin());
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<BookStoreDbContext>(options =>
-    options.UseSqlServer(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("BookStoreAppDbConnection");
+builder.Services.AddDbContext<BookStoreDbContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
