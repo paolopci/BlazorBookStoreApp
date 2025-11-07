@@ -1,3 +1,5 @@
+using AutoMapper;
+using BookStoreApp.API.Configurations;
 using BookStoreApp.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// registra tutti i profili AutoMapper presenti nell'assembly
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperConfig>());
 
 builder.Host.UseSerilog((ctx, lc) =>
 {

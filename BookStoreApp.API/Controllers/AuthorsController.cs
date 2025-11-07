@@ -1,4 +1,5 @@
 ﻿using BookStoreApp.API.Data;
+using BookStoreApp.API.Models.Author;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -76,8 +77,14 @@ namespace BookStoreApp.API.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         // Inserisce un nuovo autore e restituisce il 201 con la risorsa creata.
-        public async Task<ActionResult<Author>> PostAuthor(Author author)
+        public async Task<ActionResult<AuthorCreateDto>> PostAuthor(AuthorCreateDto authorDto)
         {
+            var author = new Author
+            {
+                FirstName = authorDto.FirstName,
+                LastName = authorDto.LastName,
+                Bio = authorDto.Bio
+            };
             await _context.Authors.AddAsync(author);
             await _context.SaveChangesAsync();
 
