@@ -18,6 +18,12 @@
 - Name controllers as `<Feature>Controller`, DTOs as `<Feature>Dto`, and services as `<Feature>Service`.
 - Run `dotnet format BookStoreApp.sln` before submission to enforce consistent styling.
 
+## Mapping & DTO Guidelines
+- Use AutoMapper 15.x with profiles stored under `BookStoreApp.API/Configurations` (e.g., `MapperConfig`) and register them via `builder.Services.AddAutoMapper(typeof(MapperConfig));`.
+- Create dedicated DTOs for each controller scenario: `<Feature>ReadDto` for responses, `<Feature>CreateDto` for POST payloads, `<Feature>UpdateDto` for PUT/PATCH; never expose EF entities directly over the wire.
+- Prefer calculated properties (e.g., `FullName` combining `FirstName` + `LastName`) in DTOs when you need derived data; configure mappings in `MapperConfig` using `CreateMap<Source, Destination>()` and `ForMember` when necessary.
+- Keep DTOs lean by excluding database-only columns (audit fields, navigation collections) to prevent overposting and reduce payload size.
+
 ## Testing Guidelines
 - Add automated tests in a sibling project such as `BookStoreApp.Tests/` using xUnit (`dotnet new xunit -o BookStoreApp.Tests`).
 - Test files should mirror feature names (`WeatherForecastTests.cs`) and use the `[Fact]`/`[Theory]` pattern.
