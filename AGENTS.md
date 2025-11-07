@@ -33,3 +33,13 @@
 ## Environment & Configuration Tips
 - Keep environment-specific secrets out of source control; prefer `dotnet user-secrets` or environment variables.
 - Update `appsettings.Development.json` for local overrides but document any required keys in the PR description.
+
+## Database Schema Notes
+- Current SQL schema exposes two tables: `Authors` (Id identity, FirstName/LastName NVARCHAR(50), Bio NVARCHAR(250)) and `Books` (Id identity, Title NVARCHAR(50), Year INT, ISBN NVARCHAR(50) unique, Summary NVARCHAR(250), Image NVARCHAR(50), Price DECIMAL(18,2), AuthorId FK).
+- Keep the EF Core model aligned by capping string lengths to the same sizes and using `decimal(18, 2)` for money values; ensure `Books.AuthorId` enforces the foreign key constraint `FK_Books_ToTable`.
+- Navigation properties should be initialized (e.g., `Books = new HashSet<Book>()`) to avoid `NullReferenceException` when adding related entities manually.
+
+## EF Core Reverse Engineering
+- When tables already exist, regenerate the context and entities with `dotnet ef dbcontext scaffold "<connection-string>" Microsoft.EntityFrameworkCore.SqlServer --context BookStoreDbContext --context-dir Data --output-dir Data --namespace BookStoreApp.API.Data --use-database-names`.
+- In PowerShell you may split the command across multiple lines using the backtick `` ` `` for readability; on a single line remove the continuation characters.
+- Confirm the project references `Microsoft.EntityFrameworkCore.SqlServer` and `Microsoft.EntityFrameworkCore.Tools` before running the scaffold command.
