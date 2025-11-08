@@ -12,6 +12,6 @@ namespace BookStoreApp.API.Models.Book
         public decimal? Price { get; set; }
         public int? AuthorId { get; set; }
 
-        public AuthorReadDto? Author { get; set; }
+       // public AuthorReadDto? Author { get; set; }
     }
 }

@@ -48,7 +48,8 @@ namespace BookStoreApp.API.Controllers
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetAuthor));
             try
             {
-                var author = await _context.Authors.FindAsync(id);
+                var author = await _context.Authors.Include(b=>b.Books).
+                    FirstOrDefaultAsync(b=>b.Id==id);
 
                 if (author == null)
                 {

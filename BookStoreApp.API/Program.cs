@@ -22,6 +22,7 @@ builder.Host.UseSerilog((ctx, lc) =>
     lc.ReadFrom.Configuration(ctx.Configuration);
 });
 
+builder.Services.AddDataProtection(); // <-- nuovo
 // configuro Identity
 builder.Services
     .AddIdentityCore<IdentityUser>(options =>

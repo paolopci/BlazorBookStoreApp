@@ -1,4 +1,6 @@
-﻿namespace BookStoreApp.API.Models.Author
+﻿using BookStoreApp.API.Models.Book;
+
+namespace BookStoreApp.API.Models.Author
 {
     public class AuthorReadDto : BaseDto
     {
@@ -7,5 +9,7 @@
         public string? Bio { get; set; }
 
         public string FullName => $"{FirstName} {LastName}".Trim();
+
+        public ICollection<BookReadDto> Books { get; set; } = new List<BookReadDto>();
     }
 }
