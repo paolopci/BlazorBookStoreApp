@@ -1,6 +1,7 @@
 using AutoMapper;
 using BookStoreApp.API.Configurations;
 using BookStoreApp.API.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -20,6 +21,18 @@ builder.Host.UseSerilog((ctx, lc) =>
     lc.WriteTo.Console();
     lc.ReadFrom.Configuration(ctx.Configuration);
 });
+
+// configuro Identity
+builder.Services
+    .AddIdentityCore<IdentityUser>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequiredLength = 6;
+        // aggiungi qui le altre policy che ti servono
+    })
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<BookStoreDbContext>()
+    .AddDefaultTokenProviders();
 
 // configuro CORS
 builder.Services.AddCors(options =>
@@ -46,7 +59,7 @@ app.UseHttpsRedirection();
 
 // uso Cors
 app.UseCors("AllowAll");
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
