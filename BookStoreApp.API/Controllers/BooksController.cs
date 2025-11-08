@@ -30,7 +30,9 @@ namespace BookStoreApp.API.Controllers
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetBooks));
             try
             {
-                var books = await _context.Books.ToListAsync();
+                var books = await _context.Books
+                    .Include(b => b.Author)
+                    .ToListAsync();
                 var result = _mapper.Map<IEnumerable<BookReadDto>>(books);
                 return Ok(result);
             }
@@ -48,7 +50,9 @@ namespace BookStoreApp.API.Controllers
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetBook));
             try
             {
-                var book = await _context.Books.FindAsync(id);
+                var book = await _context.Books
+                    .Include(b => b.Author)
+                    .FirstOrDefaultAsync(b => b.Id == id);
 
                 if (book == null)
                 {
