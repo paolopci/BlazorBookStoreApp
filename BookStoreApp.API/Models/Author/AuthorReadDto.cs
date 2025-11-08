@@ -10,6 +10,6 @@ namespace BookStoreApp.API.Models.Author
 
         public string FullName => $"{FirstName} {LastName}".Trim();
 
-        public ICollection<BookReadDto> Books { get; set; } = new List<BookReadDto>();
+        public ICollection<AuthorBookReadDto> Books { get; set; } = new List<AuthorBookReadDto>();
     }
 }

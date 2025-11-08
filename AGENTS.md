@@ -23,6 +23,7 @@
 - Create dedicated DTOs for each controller scenario: `<Feature>ReadDto` for responses, `<Feature>CreateDto` for POST payloads, `<Feature>UpdateDto` for PUT/PATCH; never expose EF entities directly over the wire.
 - Prefer calculated properties (e.g., `FullName` combining `FirstName` + `LastName`) in DTOs when you need derived data; configure mappings in `MapperConfig` using `CreateMap<Source, Destination>()` and `ForMember` when necessary.
 - Keep DTOs lean by excluding database-only columns (audit fields, navigation collections) to prevent overposting and reduce payload size.
+- Quando esponi relazioni annidate (es. autore con elenco libri) usa DTO dedicati per le collezioni figlie che non referenziano il DTO padre, così da evitare cicli JSON e ridurre payload ricorsivi.
 
 ## Testing Guidelines
 - Add automated tests in a sibling project such as `BookStoreApp.Tests/` using xUnit (`dotnet new xunit -o BookStoreApp.Tests`).
