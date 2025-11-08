@@ -1,0 +1,33 @@
+USE BookStoreDb;
+GO
+
+INSERT INTO dbo.Authors (FirstName, LastName, Bio)
+VALUES
+    (N'Isabella', N'Conti', N'Esperta di romanzi storici ambientati in Europa.'),
+    (N'Marco', N'Bianchi', N'Scrittore di thriller tecnologici ambientati in Italia.'),
+    (N'Sara', N'Rossi', N'Autrice di narrativa contemporanea focalizzata su relazioni familiari.'),
+    (N'Giulio', N'Ferrari', N'Accademico specializzato in saggi divulgativi di scienza.'),
+    (N'Elena', N'Moretti', N'Autrice fantasy con mondi ispirati al folklore mediterraneo.');
+
+INSERT INTO dbo.Books (Title, [Year], ISBN, Summary, Image, Price, AuthorId)
+VALUES
+    (N'Le Cronache di Valtoria', 2015, N'9780000000011', N'Avventura fantasy in un regno diviso da magie antiche.', N'valtoria.jpg', 19.90, 5),
+    (N'I Custodi di Aleria', 2017, N'9780000000028', N'Seguito di Valtoria con nuove alleanze tra casate.', N'aleria.jpg', 21.50, 5),
+    (N'Nebbie su Portus', 2019, N'9780000000035', N'Thriller investigativo con elementi soprannaturali.', N'portus.jpg', 17.00, 2),
+    (N'Codice Ombra', 2020, N'9780000000042', N'Hacker italiani affrontano una cospirazione globale.', N'ombra.jpg', 22.90, 2),
+    (N'Riflessi di Luce', 2018, N'9780000000059', N'Drama familiare ambientato sul lago di Como.', N'riflessi.jpg', 16.50, 3),
+    (N'Silenzi Condivisi', 2021, N'9780000000066', N'Romanzo epistolare su due sorelle lontane.', N'silenzi.jpg', 18.00, 3),
+    (N'Equilibri Precari', 2023, N'9780000000073', N'Vicende di una famiglia allargata in crisi.', N'equilibri.jpg', 20.00, 3),
+    (N'Particelle Erranti', 2014, N'9780000000080', N'Saggio divulgativo sulla fisica delle particelle.', N'particelle.jpg', 24.99, 4),
+    (N'La Vita delle Galassie', 2016, N'9780000000097', N'Analisi accessibile sull''evoluzione cosmica.', N'galassie.jpg', 23.50, 4),
+    (N'Frontiere del Cervello', 2018, N'9780000000103', N'Studio sulle neuroscienze moderne.', N'cervello.jpg', 25.75, 4),
+    (N'Sussurri di Roma', 2013, N'9780000000110', N'Intrighi storici durante l''Impero Romano.', N'sussurri.jpg', 18.90, 1),
+    (N'Il Velo di Cartagine', 2014, N'9780000000127', N'Conflitto politico in Africa romana.', N'cartagine.jpg', 19.50, 1),
+    (N'Sette Colline in Fiamme', 2016, N'9780000000134', N'Rivolta militare che scuote Roma.', N'colline.jpg', 21.00, 1),
+    (N'La Chiave del Tevere', 2018, N'9780000000141', N'Avventura archeologica con elementi romantici.', N'tevere.jpg', 17.80, 1),
+    (N'Ombre su Firenze', 2020, N'9780000000158', N'Misteri rinascimentali con alchimisti e mercanti.', N'firenze.jpg', 22.40, 1),
+    (N'Protocollo Avernus', 2022, N'9780000000165', N'Thriller cibernetico sulla sicurezza europea.', N'avernus.jpg', 23.10, 2),
+    (N'Linea di Sangue', 2023, N'9780000000172', N'Giallo tecnologico ambientato a Milano.', N'linea.jpg', 19.95, 2),
+    (N'Maree di Lumen', 2021, N'9780000000189', N'Fantasy su una citta costiera che vive di magia lunare.', N'lumen.jpg', 21.80, 5),
+    (N'Gli Archivi di Serapide', 2022, N'9780000000196', N'Romanzo corale in un gigantesco archivio sotterraneo.', N'serapide.jpg', 23.60, 5),
+    (N'Vengenza di Arath', 2024, N'9780000000202', N'Epico clash finale nella saga di Valtoria.', N'arath.jpg', 24.50, 5);
