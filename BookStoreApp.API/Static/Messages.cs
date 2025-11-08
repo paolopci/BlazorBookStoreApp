@@ -10,5 +10,6 @@
         public const string ErrorPerformingAction = "{ActionName}: An unexpected error occurred.";
         public const string ConcurrencyError = "{ActionName}: Concurrency issue detected for {Entity} with id {Id}.";
         public const string AuthorEntityName = "Author";
+        public const string BookEntityName = "Book";
     }
 }
