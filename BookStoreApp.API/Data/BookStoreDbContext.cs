@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BookStoreApp.API.Data.Configurations;
 
 namespace BookStoreApp.API.Data
 {
@@ -16,6 +17,9 @@ namespace BookStoreApp.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
 
             modelBuilder.Entity<Author>(entity =>
             {
