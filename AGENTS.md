@@ -44,6 +44,8 @@ Le sezioni successive raccolgono tutte le indicazioni specifiche del repository 
 - `BookStoreApp.API/Controllers/` holds ASP.NET Core controllers (e.g., `WeatherForecastController`); add new endpoints here.
 - Shared configuration lives in `BookStoreApp.API/appsettings*.json`; use user secrets for sensitive overrides.
 - Build artifacts flow into `BookStoreApp.API/bin/` and `BookStoreApp.API/obj/`; keep generated files out of commits.
+ - Usa `dotnet ef database update` come fonte primaria per creare/popolare il database: le migration EF includono sia tabelle sia dati seed (ruoli, utenti, autori, libri).  
+ - Gli script SQL sotto `BookStoreApp.API/scripts` sono solo un fallback legacy/manuale: se li usi devi assicurarti che derivino dall’ultima migration (`dotnet ef migrations script`). Documenta sempre nel PR se hai fatto ricorso agli script.
 
 ### Build, Test, and Development Commands
 

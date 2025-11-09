@@ -1,5 +1,12 @@
-USE BookStoreDb;
+USE master;
 GO
 
-DELETE FROM dbo.Books;
-DELETE FROM dbo.Authors;
+IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'BookStoreDb')
+BEGIN
+    ALTER DATABASE BookStoreDb SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE BookStoreDb;
+END;
+GO
+
+CREATE DATABASE BookStoreDb;
+GO
