@@ -22,10 +22,10 @@ builder.Host.UseSerilog((ctx, lc) =>
     lc.ReadFrom.Configuration(ctx.Configuration);
 });
 
-builder.Services.AddDataProtection(); // <-- nuovo
+builder.Services.AddDataProtection();
 // configuro Identity
 builder.Services
-    .AddIdentityCore<IdentityUser>(options =>
+    .AddIdentityCore<ApiUser>(options =>
     {
         options.User.RequireUniqueEmail = true;
         options.Password.RequiredLength = 6;

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreApp.API.Data
 {
-    public class BookStoreDbContext : IdentityDbContext
+    public class BookStoreDbContext : IdentityDbContext<ApiUser>
     {
         public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options)
             : base(options)
@@ -34,6 +34,18 @@ namespace BookStoreApp.API.Data
                 entity.Property(a => a.Bio)
                       .HasMaxLength(250);
             });
+
+            modelBuilder.Entity<ApiUser>(entity =>
+            {
+                entity.Property(u => u.FirstName)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.LastName)
+                      .IsRequired()
+                      .HasMaxLength(50);
+            });
+
 
             modelBuilder.Entity<Book>(entity =>
             {
