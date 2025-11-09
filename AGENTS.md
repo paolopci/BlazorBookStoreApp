@@ -1,5 +1,8 @@
 # Repository Guidelines
 
+## Codex Interaction
+- Rispondi sempre in italiano, indipendentemente dalla lingua del prompt, salvo quando il contenuto richiesto deve rimanere in un'altra lingua.
+
 ## Project Structure & Module Organization
 - Solution root `BookStoreApp.sln` references the API project under `BookStoreApp.API/`.
 - `BookStoreApp.API/Controllers/` holds ASP.NET Core controllers (e.g., `WeatherForecastController`); add new endpoints here.
