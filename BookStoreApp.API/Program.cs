@@ -1,6 +1,8 @@
 using AutoMapper;
 using BookStoreApp.API.Configurations;
 using BookStoreApp.API.Data;
+using BookStoreApp.API.Services;
+using BookStoreApp.API.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -12,7 +14,33 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new() { Title = "BookStore API", Version = "v1" });
+    options.AddSecurityDefinition("Bearer", new()
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Inserisci il token JWT nel formato 'Bearer {token}'",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
+    options.AddSecurityRequirement(new()
+    {
+        {
+            new()
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 // registra tutti i profili AutoMapper presenti nell'assembly
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperConfig>());
 
@@ -29,6 +57,7 @@ builder.Services.AddCorsPolicies();
 var connectionString = builder.Configuration.GetConnectionString("BookStoreAppDbConnection");
 builder.Services.AddDbContext<BookStoreDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
