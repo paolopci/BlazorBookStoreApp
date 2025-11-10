@@ -1,6 +1,7 @@
 ﻿using BookStoreApp.API.Data;
 using BookStoreApp.API.Models.Auth;
 using BookStoreApp.API.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,7 @@ namespace BookStoreApp.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Register(RegisterUserDto request)
         {
             if (!ModelState.IsValid)
@@ -71,6 +73,7 @@ namespace BookStoreApp.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Login(LoginRequestDto request)
         {
             if (!ModelState.IsValid)
@@ -92,6 +95,14 @@ namespace BookStoreApp.API.Controllers
 
             var token = await _tokenService.GenerateTokenAsync(user);
             return Ok(token);
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            _logger.LogInformation("Logout richiesto per l'utente {User}", User.Identity?.Name ?? "anonimo");
+            return Ok("Logout eseguito. Rimuovi il token dal client per completare l'operazione.");
         }
     }
 }

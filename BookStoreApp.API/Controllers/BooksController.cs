@@ -2,6 +2,7 @@
 using BookStoreApp.API.Data;
 using BookStoreApp.API.Models.Book;
 using BookStoreApp.API.Static;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace BookStoreApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly BookStoreDbContext _context;
@@ -25,6 +27,7 @@ namespace BookStoreApp.API.Controllers
 
         // GET: api/Books
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<BookReadDto>>> GetBooks()
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetBooks));
@@ -45,6 +48,7 @@ namespace BookStoreApp.API.Controllers
 
         // GET: api/Books/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<BookReadDto>> GetBook(int id)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetBook));
