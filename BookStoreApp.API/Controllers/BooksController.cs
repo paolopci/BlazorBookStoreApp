@@ -10,7 +10,7 @@ namespace BookStoreApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize("role=Administrator")]
     public class BooksController : ControllerBase
     {
         private readonly BookStoreDbContext _context;
@@ -77,6 +77,7 @@ namespace BookStoreApp.API.Controllers
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize("role=Administrator")]
         public async Task<IActionResult> PutBook(int id, BookUpdateDto bookDto)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(PutBook));
@@ -122,6 +123,7 @@ namespace BookStoreApp.API.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize("role=Administrator")]
         public async Task<ActionResult<BookReadDto>> PostBook(BookCreateDto bookDto)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(PostBook));
@@ -145,6 +147,7 @@ namespace BookStoreApp.API.Controllers
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
+        [Authorize("role=Administrator")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(DeleteBook));

@@ -28,7 +28,7 @@ namespace BookStoreApp.API.Services
             var authClaims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Email ?? string.Empty),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),//sorta di key monouso
                 new(ClaimTypes.NameIdentifier, user.Id),
                 new(ClaimTypes.Email, user.Email ?? string.Empty)
             };

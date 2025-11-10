@@ -10,7 +10,7 @@ namespace BookStoreApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize("role=Administrator")]
     public class AuthorsController : ControllerBase
     {
         private readonly BookStoreDbContext _context;
@@ -52,8 +52,8 @@ namespace BookStoreApp.API.Controllers
             _logger.LogInformation(Messages.RequestInitiated, nameof(GetAuthor));
             try
             {
-                var author = await _context.Authors.Include(b=>b.Books).
-                    FirstOrDefaultAsync(b=>b.Id==id);
+                var author = await _context.Authors.Include(b => b.Books).
+                    FirstOrDefaultAsync(b => b.Id == id);
 
                 if (author == null)
                 {
@@ -73,6 +73,7 @@ namespace BookStoreApp.API.Controllers
 
         // PUT: api/Authors/5
         [HttpPut("{id}")]
+        [Authorize("role=Administrator")]
         public async Task<IActionResult> PutAuthor(int id, AuthorUpdateDto authorDto)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(PutAuthor));
@@ -120,6 +121,7 @@ namespace BookStoreApp.API.Controllers
 
         // POST: api/Authors
         [HttpPost]
+        [Authorize("role=Administrator")]
         public async Task<ActionResult<AuthorReadDto>> PostAuthor(AuthorCreateDto authorDto)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(PostAuthor));
@@ -142,6 +144,7 @@ namespace BookStoreApp.API.Controllers
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
+        [Authorize("role=Administrator")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
             _logger.LogInformation(Messages.RequestInitiated, nameof(DeleteAuthor));
