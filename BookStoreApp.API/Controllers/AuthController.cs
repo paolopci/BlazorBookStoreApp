@@ -32,14 +32,17 @@ namespace BookStoreApp.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Register(RegisterUserDto request)
         {
+            _logger.LogInformation("Register request received for {Email}", request.Email);
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Register failed: invalid model state for {Email}", request.Email);
                 return BadRequest(ModelState);
             }
 
             var userExists = await _userManager.FindByEmailAsync(request.Email);
             if (userExists is not null)
             {
+                _logger.LogWarning("Register failed: email already exists for {Email}", request.Email);
                 return Conflict("Email già registrata.");
             }
 
@@ -48,14 +51,13 @@ namespace BookStoreApp.API.Controllers
                 Email = request.Email,
                 UserName = request.Email,
                 FirstName = request.FirstName,
-                LastName = request.LastName,
-                // TODO: Abilitare la conferma email in produzione
-                EmailConfirmed = false
+                LastName = request.LastName
             };
 
             var createResult = await _userManager.CreateAsync(user, request.Password);
             if (!createResult.Succeeded)
             {
+                _logger.LogWarning("Register failed for {Email}", request.Email);
                 foreach (var error in createResult.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
@@ -69,6 +71,7 @@ namespace BookStoreApp.API.Controllers
             }
 
             var token = await _tokenService.GenerateTokenAsync(user);
+            _logger.LogInformation("Register succeeded for {Email}", request.Email);
             return CreatedAtAction(nameof(Register), token);
         }
 
@@ -76,24 +79,29 @@ namespace BookStoreApp.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Login(LoginRequestDto request)
         {
+            _logger.LogInformation("Login request received for {Email}", request.Email);
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Login failed: invalid model state for {Email}", request.Email);
                 return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user is null)
             {
-                return Unauthorized("Credenziali (Email) non valide.");
+                _logger.LogWarning("Login failed: user not found for {Email}", request.Email);
+                return Unauthorized("Credenziali non valide.");
             }
 
             var validPassword = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!validPassword)
             {
-                return Unauthorized("Credenziali (Password) non valide.");
+                _logger.LogWarning("Login failed: invalid password for {Email}", request.Email);
+                return Unauthorized("Credenziali non valide.");
             }
 
             var token = await _tokenService.GenerateTokenAsync(user);
+            _logger.LogInformation("Login succeeded for {Email}", request.Email);
             return Ok(token);
         }
 
