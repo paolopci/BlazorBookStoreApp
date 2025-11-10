@@ -22,30 +22,13 @@ builder.Host.UseSerilog((ctx, lc) =>
     lc.ReadFrom.Configuration(ctx.Configuration);
 });
 
-builder.Services.AddDataProtection();
-// configuro Identity
-builder.Services
-    .AddIdentityCore<ApiUser>(options =>
-    {
-        options.User.RequireUniqueEmail = true;
-        options.Password.RequiredLength = 6;
-        // aggiungi qui le altre policy che ti servono
-    })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<BookStoreDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentityServices();
 
-// configuro CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll ", b =>
-        b.AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowAnyOrigin());
-});
+builder.Services.AddCorsPolicies();
 
 var connectionString = builder.Configuration.GetConnectionString("BookStoreAppDbConnection");
 builder.Services.AddDbContext<BookStoreDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
@@ -59,7 +42,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // uso Cors
-app.UseCors("AllowAll");
+app.UseCors(CorsConfigSetup.GetAllowAllPolicyName());
 app.UseAuthentication();
 app.UseAuthorization();
 
